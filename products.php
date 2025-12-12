@@ -128,25 +128,33 @@ if (isset($_GET['delete'])) {
             </div>
             
             <!-- Low Stock Alert -->
-            <div class="dashboard-card mt-4">
-                <h5 class="text-danger">
-                    <i class="fas fa-exclamation-triangle me-2"></i>Low Stock Products
-                </h5>
-                <?php
-                $result = $conn->query("SELECT * FROM products WHERE stock_quantity <= min_stock ORDER BY stock_quantity ASC");
-                if ($result->num_rows > 0):
-                    while($product = $result->fetch_assoc()):
-                ?>
-                <div class="alert alert-warning py-2 mb-2">
-                    <div class="d-flex justify-content-between">
-                        <span><?php echo $product['product_name']; ?></span>
-                        <span class="fw-bold">Stock: <?php echo $product['stock_quantity']; ?></span>
-                    </div>
-                </div>
-                <?php endwhile; else: ?>
-                <p class="text-muted text-center py-3">No low stock products</p>
-                <?php endif; ?>
+            <div class="card shadow-sm border-0 mb-4" style="background:#f9f9f9;">
+    <div class="card-header bg-light border-0 d-flex align-items-center">
+        <i class="fas fa-exclamation-triangle text-warning me-2"></i>
+        <h5 class="mb-0 text-dark">Low Stock Products</h5>
+    </div>
+
+    <div class="card-body" style="max-height: 250px; overflow-y: auto;">
+        <?php
+        $result = $conn->query("SELECT * FROM products WHERE stock_quantity <= min_stock ORDER BY stock_quantity ASC");
+        if ($result->num_rows > 0):
+            while($product = $result->fetch_assoc()):
+        ?>
+            <div class="p-2 mb-2 rounded d-flex justify-content-between align-items-center"
+                 style="background:#ffffff; border:1px solid #e5e5e5;">
+                <span class="fw-semibold text-dark">
+                    <?php echo $product['product_name']; ?>
+                </span>
+                <span class="badge bg-warning text-dark">
+                    Stock: <?php echo $product['stock_quantity']; ?>
+                </span>
             </div>
+        <?php endwhile; else: ?>
+            <p class="text-muted text-center py-3">No low stock products</p>
+        <?php endif; ?>
+    </div>
+</div>
+
         </div>
         
         <div class="col-md-8">
